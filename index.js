@@ -63,7 +63,7 @@ new CronJob('0 9,14,17 * * *', async() => {
 }, null, true, 'America/Bogota');
 
 // new CronJob('30 9,12,5 * * *', async() => {
-new CronJob('06 16 * * *', async() => {
+new CronJob('20 18 * * *', async() => {
     console.log("ingreso coop")
     task.stop()
     url_coopast = "http://192.168.2.43/video_wall/play.php?video=coppast";
