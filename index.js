@@ -10,9 +10,9 @@ var moment = require('moment');
 
 let index_view = 0;
 const urls = [
-    { element: 'http://192.168.2.63/tests/videowall/videos.php', duration: 120000 },
-    { element: 'http://192.168.2.63/tests/videowall/asistencia.php', duration: 180000 },
-    { element: 'http://192.168.2.63/tests/videowall/videos.php', duration: 4000 }
+    { element: 'http://192.168.2.43/videowall/videos.php', duration: 30 },
+    { element: 'http://192.168.2.43/videowall/call.php', duration: 30 },
+    { element: 'http://192.168.2.34/pantallas_indicadores/llegadas_personas/informe_pantallas/', duration: 30 },
 ];
 
 
@@ -47,15 +47,43 @@ const task = new CronJob(`${moment().add(1, 'm').minute()} * * * *`, async() => 
 
 new CronJob('0 9,14,17 * * *', async() => {
     task.stop()
-    url_DEFINE = "http://192.168.2.34/pantallas_indicadores/llegadas_personas/informe_pantallas/";
+    url_videos = "http://192.168.2.43/video_wall/play.php?video=pausas";
     process_lists = await psList();
     process_lists.map((process_element) => {
         if (process_element.name == "chrome.exe") {
             process.kill(process_element.pid)
         }
     })
-    childProcess.exec(`start chrome --start-fullscreen --incognito ${url_DEFINE}`);
-    time = 2 * 60000
+    childProcess.exec(`start chrome --start-fullscreen --incognito ${url_videos}`);
+    time = 7 * 60000
     sleep(time); // en milisegundos
     task.start()
+}, null, true, 'America/Bogota');
+
+new CronJob('30 9,12,5 * * *', async() => {
+    task.stop()
+    url_coopast = "http://192.168.2.43/video_wall/play.php?video=coppast";
+    process_lists = await psList();
+    process_lists.map((process_element) => {
+        if (process_element.name == "chrome.exe") {
+            process.kill(process_element.pid)
+        }
+    })
+    childProcess.exec(`start chrome --start-fullscreen --incognito ${url_coopast}`);
+    time = 7 * 60000
+    sleep(time); // en milisegundos
+    task.start()
+}, null, true, 'America/Bogota');
+
+new CronJob('40 7 * * *', async() => {
+    url_asistence = "http://192.168.2.43/video_wall/asistencia.php";
+    process_lists = await psList();
+    process_lists.map((process_element) => {
+        if (process_element.name == "chrome.exe") {
+            process.kill(process_element.pid)
+        }
+    })
+    childProcess.exec(`start chrome --start-fullscreen --incognito ${url_asistence}`);
+    time = 59 * 60000
+    sleep(time);
 }, null, true, 'America/Bogota');
