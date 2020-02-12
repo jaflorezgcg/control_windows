@@ -10,9 +10,9 @@ var moment = require('moment');
 
 let index_view = 0;
 const urls = [
-    { element: 'http://192.168.2.43/video_wall/videos.php', duration: 29 },
-    { element: 'http://192.168.2.43/video_wall/call.php', duration: 29 },
-    { element: 'http://192.168.2.34/pantallas_indicadores/llegadas_personas/informe_pantallas/', duration: 29 },
+    { element: 'http://192.168.2.43/video_wall/videos.php', duration: 1 },
+    { element: 'http://192.168.2.43/video_wall/call.php', duration: 1 },
+    { element: 'http://192.168.2.34/pantallas_indicadores/llegadas_personas/informe_pantallas/', duration: 1 },
 ];
 
 
@@ -58,10 +58,12 @@ new CronJob('0 9,14,17 * * *', async() => {
     childProcess.exec(`start chrome --start-fullscreen --incognito ${url_videos}`);
     time = 7 * 60000
     sleep(time); // en milisegundos
+    task.setTime(new CronTime(`${moment().add(1, 'm').minute()} * * * *`))
     task.start()
 }, null, true, 'America/Bogota');
 
-new CronJob('30 9,12,5 * * *', async() => {
+// new CronJob('30 9,12,5 * * *', async() => {
+new CronJob('06 15 * * *', async() => {
     console.log("ingreso coop")
     task.stop()
     url_coopast = "http://192.168.2.43/video_wall/play.php?video=coppast";
@@ -72,8 +74,11 @@ new CronJob('30 9,12,5 * * *', async() => {
         }
     })
     childProcess.exec(`start chrome --start-fullscreen --incognito ${url_coopast}`);
-    time = 7 * 60000
+    time = 3 * 60000
+    console.log(time)
     sleep(time); // en milisegundos
+    console.log("despues sleep coop")
+    task.setTime(new CronTime(`${moment().add(1, 'm').minute()} * * * *`))
     task.start()
 }, null, true, 'America/Bogota');
 
