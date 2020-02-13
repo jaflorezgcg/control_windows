@@ -33,6 +33,7 @@ const task = new CronJob(`${moment().add(1, 'm').minute()} * * * *`, async() => 
     })
 
     childProcess.exec(`start chrome --start-fullscreen --incognito ${url}`);
+    childProcess.exec(`powershell.exe $wshell = New-Object -ComObject wscript.shell; $wshell.AppActivate('Google Chrome') ; Sleep 3 ;  $wshell.SendKeys('{ESCAPE}')`);
     task.stop()
     time = urls[index_view].duration * 60000
     sleep(time); // en milisegundos
@@ -55,7 +56,9 @@ new CronJob('0 9,14,17 * * *', async() => {
             process.kill(process_element.pid)
         }
     })
+
     childProcess.exec(`start chrome --start-fullscreen --incognito ${url_videos}`);
+    childProcess.exec(`powershell.exe $wshell = New-Object -ComObject wscript.shell; $wshell.AppActivate('Google Chrome') ; Sleep 3 ;  $wshell.SendKeys('{ESCAPE}')`);
     time = 6 * 60000
     sleep(time); // en milisegundos
     task.setTime(new CronTime(`${moment().add(1, 'm').minute()} * * * *`))
@@ -74,6 +77,7 @@ new CronJob('30 9,12,17 * * *', async() => {
         }
     })
     childProcess.exec(`start chrome --start-fullscreen --incognito ${url_coopast}`);
+    childProcess.exec(`powershell.exe $wshell = New-Object -ComObject wscript.shell; $wshell.AppActivate('Google Chrome') ; Sleep 3 ;  $wshell.SendKeys('{ESCAPE}')`);
     time = 1 * 60000
     sleep(time); // en milisegundos
     task.setTime(new CronTime(`${moment().add(1, 'm').minute()} * * * *`))
@@ -91,8 +95,24 @@ new CronJob('40 7 * * *', async() => {
         }
     })
     childProcess.exec(`start chrome --start-fullscreen --incognito ${url_asistence}`);
+    childProcess.exec(`powershell.exe $wshell = New-Object -ComObject wscript.shell; $wshell.AppActivate('Google Chrome') ; Sleep 3 ;  $wshell.SendKeys('{ESCAPE}')`);
     time = 59 * 60000
     sleep(time);
     task.setTime(new CronTime(`${moment().add(1, 'm').minute()} * * * *`))
     task.start()
 }, null, true, 'America/Bogota');
+
+app.get("/testing", async function(req, res) {
+    console.log("edge")
+    process_lists = await psList();
+    process_lists.map((process_element) => {
+        if (process_element.name == "chrome.exe") {
+            process.kill(process_element.pid)
+        }
+    })
+
+    childProcess.exec(`start chrome --start-fullscreen --incognito http://192.168.2.43/video_wall/videos.php`);
+    childProcess.exec(`powershell.exe $wshell = New-Object -ComObject wscript.shell; $wshell.AppActivate('Google Chrome') ; Sleep 3 ;  $wshell.SendKeys('{ESCAPE}')`);
+
+    res.json(process_lists)
+})
