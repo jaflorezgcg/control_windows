@@ -11,7 +11,7 @@
   "dependencies": {
     "cron": "^1.8.2",
     "express": "^4.17.1",
-    "moment": "^2.24.0",
+    "moment": "^2.29.4",
     "ps-list": "^6.3.0",
     "system-sleep": "^1.3.6"
   }
